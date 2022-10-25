@@ -1,4 +1,5 @@
 const { expectRevert } = require('@openzeppelin/test-helpers');
+const { contract } = require('hardhat');
 const { BridgeHelper } = require('../helpers/crosschain');
 
 const {
@@ -14,7 +15,8 @@ const AccessControlCrossChainMock = artifacts.require('AccessControlCrossChainMo
 
 const ROLE = web3.utils.soliditySha3('ROLE');
 
-contract('AccessControl', function (accounts) {
+// FIXME: In https://zilliqa-jira.atlassian.net/browse/ZIL-4945
+contract.skip('AccessControl', function (accounts) {
   before(async function () {
     this.bridge = await BridgeHelper.deploy();
   });
@@ -35,7 +37,8 @@ contract('AccessControl', function (accounts) {
       expect(await this.accessControl.crossChainRoleAlias(ROLE)).to.be.bignumber.equal(crossChainRoleAlias(ROLE));
     });
 
-    it('Crosschain calls not authorized to non-aliased addresses', async function () {
+    // FIXME: In https://zilliqa-jira.atlassian.net/browse/ZIL-4899
+    xit('Crosschain calls not authorized to non-aliased addresses', async function () {
       await expectRevert(
         this.bridge.call(
           accounts[0],
