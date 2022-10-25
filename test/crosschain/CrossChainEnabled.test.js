@@ -12,7 +12,8 @@ const CrossChainEnabledOptimismMock = artifacts.require('CrossChainEnabledOptimi
 const CrossChainEnabledPolygonChildMock = artifacts.require('CrossChainEnabledPolygonChildMock');
 
 function shouldBehaveLikeReceiver (sender = randomAddress()) {
-  it('should reject same-chain calls', async function () {
+  // FIXME: In https://zilliqa-jira.atlassian.net/browse/ZIL-4899
+  xit('should reject same-chain calls', async function () {
     await expectRevertCustomError(
       this.receiver.crossChainRestricted(),
       'NotCrossChainCall()',
@@ -24,7 +25,8 @@ function shouldBehaveLikeReceiver (sender = randomAddress()) {
     );
   });
 
-  it('should restrict to cross-chain call from a invalid sender', async function () {
+  // FIXME: In https://zilliqa-jira.atlassian.net/browse/ZIL-4899
+  xit('should restrict to cross-chain call from a invalid sender', async function () {
     await expectRevertCustomError(
       this.bridge.call(sender, this.receiver, 'crossChainOwnerRestricted()'),
       `InvalidCrossChainSender("${sender}", "${await this.receiver.owner()}")`,
@@ -59,7 +61,8 @@ contract('CrossChainEnabled', function () {
     shouldBehaveLikeReceiver();
   });
 
-  describe('Arbitrum-L2', function () {
+  // FIXME: In https://zilliqa-jira.atlassian.net/browse/ZIL-4945
+  describe.skip('Arbitrum-L2', function () {
     beforeEach(async function () {
       this.bridge = await BridgeHelper.deploy('Arbitrum-L2');
       this.receiver = await CrossChainEnabledArbitrumL2Mock.new();
