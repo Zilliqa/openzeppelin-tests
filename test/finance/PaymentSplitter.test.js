@@ -11,35 +11,41 @@ contract('PaymentSplitter', function (accounts) {
 
   const amount = ether('1');
 
-  it('rejects an empty set of payees', async function () {
+  // FIXME: In https://zilliqa-jira.atlassian.net/browse/ZIL-4899
+  xit('rejects an empty set of payees', async function () {
     await expectRevert(PaymentSplitter.new([], []), 'PaymentSplitter: no payees');
   });
 
-  it('rejects more payees than shares', async function () {
+  // FIXME: In https://zilliqa-jira.atlassian.net/browse/ZIL-4899
+  xit('rejects more payees than shares', async function () {
     await expectRevert(PaymentSplitter.new([payee1, payee2, payee3], [20, 30]),
       'PaymentSplitter: payees and shares length mismatch',
     );
   });
 
-  it('rejects more shares than payees', async function () {
+  // FIXME: In https://zilliqa-jira.atlassian.net/browse/ZIL-4899
+  xit('rejects more shares than payees', async function () {
     await expectRevert(PaymentSplitter.new([payee1, payee2], [20, 30, 40]),
       'PaymentSplitter: payees and shares length mismatch',
     );
   });
 
-  it('rejects null payees', async function () {
+  // FIXME: In https://zilliqa-jira.atlassian.net/browse/ZIL-4899
+  xit('rejects null payees', async function () {
     await expectRevert(PaymentSplitter.new([payee1, ZERO_ADDRESS], [20, 30]),
       'PaymentSplitter: account is the zero address',
     );
   });
 
-  it('rejects zero-valued shares', async function () {
+  // FIXME: In https://zilliqa-jira.atlassian.net/browse/ZIL-4899
+  xit('rejects zero-valued shares', async function () {
     await expectRevert(PaymentSplitter.new([payee1, payee2], [20, 0]),
       'PaymentSplitter: shares are 0',
     );
   });
 
-  it('rejects repeated payees', async function () {
+  // FIXME: In https://zilliqa-jira.atlassian.net/browse/ZIL-4899
+  xit('rejects repeated payees', async function () {
     await expectRevert(PaymentSplitter.new([payee1, payee1], [20, 30]),
       'PaymentSplitter: account already has shares',
     );
@@ -92,12 +98,14 @@ contract('PaymentSplitter', function (accounts) {
 
     describe('release', function () {
       describe('Ether', function () {
-        it('reverts if no funds to claim', async function () {
+        // FIXME: In https://zilliqa-jira.atlassian.net/browse/ZIL-4899
+        xit('reverts if no funds to claim', async function () {
           await expectRevert(this.contract.release(payee1),
             'PaymentSplitter: account is not due payment',
           );
         });
-        it('reverts if non-payee want to claim', async function () {
+        // FIXME: In https://zilliqa-jira.atlassian.net/browse/ZIL-4899
+        xit('reverts if non-payee want to claim', async function () {
           await send.ether(payer1, this.contract.address, amount);
           await expectRevert(this.contract.release(nonpayee1),
             'PaymentSplitter: account has no shares',
@@ -106,12 +114,14 @@ contract('PaymentSplitter', function (accounts) {
       });
 
       describe('Token', function () {
-        it('reverts if no funds to claim', async function () {
+        // FIXME: In https://zilliqa-jira.atlassian.net/browse/ZIL-4899
+        xit('reverts if no funds to claim', async function () {
           await expectRevert(this.contract.release(this.token.address, payee1),
             'PaymentSplitter: account is not due payment',
           );
         });
-        it('reverts if non-payee want to claim', async function () {
+        // FIXME: In https://zilliqa-jira.atlassian.net/browse/ZIL-4899
+        xit('reverts if non-payee want to claim', async function () {
           await this.token.transfer(this.contract.address, amount, { from: owner });
           await expectRevert(this.contract.release(this.token.address, nonpayee1),
             'PaymentSplitter: account has no shares',
